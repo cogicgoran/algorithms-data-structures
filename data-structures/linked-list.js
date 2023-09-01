@@ -48,7 +48,7 @@ class LinkedList {
         return !this.head instanceof Node;
     }
 
-    remove(removeIndex) {
+    removeAt(removeAtIndex) {
         if (this.isEmpty()) {
             return null;
         }
@@ -56,12 +56,12 @@ class LinkedList {
         let current = this.head;
         let previous;
         while (current) {
-            if (removeIndex === 0) {
+            if (removeAtIndex === 0) {
                 const nodeToRemove = current;
                 this.head = nodeToRemove.nextNode;
                 return nodeToRemove;
             }
-            if (currentIndex === removeIndex) {
+            if (currentIndex === removeAtIndex) {
                 const nodeToRemove = current;
                 previous.nextNode = nodeToRemove.nextNode;
                 return nodeToRemove;
@@ -126,7 +126,7 @@ try {
         linkedList.append(2);
         linkedList.append(3);
         assert.equal(linkedList.search(2).data, 2);
-        const removed = linkedList.remove(1);
+        const removed = linkedList.removeAt(1);
         assert.equal(removed, '<Node data:2>');
         assert.equal(linkedList.search(2), null);
         assert.notEqual(linkedList.search(3), null);
