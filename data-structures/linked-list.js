@@ -44,6 +44,35 @@ class LinkedList {
         previousNode.nextNode = newNode;
     }
 
+    isEmpty() {
+        return !this.head instanceof Node;
+    }
+
+    remove(removeIndex) {
+        if (this.isEmpty()) {
+            return null;
+        }
+        let currentIndex = 0;
+        let current = this.head;
+        let previous;
+        while (current) {
+            if (removeIndex === 0) {
+                const nodeToRemove = current;
+                this.head = nodeToRemove.nextNode;
+                return nodeToRemove;
+            }
+            if (currentIndex === removeIndex) {
+                const nodeToRemove = current;
+                previous.nextNode = nodeToRemove.nextNode;
+                return nodeToRemove;
+            }
+            currentIndex++;
+            previous = current;
+            current = current.nextNode;
+        }
+        return null;
+    }
+
     search(data) {
         let current = this.head;
         while (current) {
@@ -64,6 +93,10 @@ class Node {
         this.data = data;
         this.nextNode = nextNode;
     }
+
+    toString() {
+        return `<Node data:${this.data}>`
+    }
 }
 
 
@@ -72,18 +105,32 @@ try {
     assert.equal(new LinkedList().head, null);
     (() => {
         const linkedList = new LinkedList();
-        assert.equal(linkedList.search(3), null)
+        assert.equal(linkedList.search(3), null);
     })();
     (() => {
         const linkedList = new LinkedList();
         linkedList.append(3);
-        assert.deepEqual(linkedList.search(3), { data: 3, nextNode: null })
+        assert.deepEqual(linkedList.search(3), { data: 3, nextNode: null });
     })();
     (() => {
         const linkedList = new LinkedList();
         linkedList.append(3);
         linkedList.append(5);
-        assert.deepEqual(linkedList.search(5), { data: 5, nextNode: null })
+        const node = linkedList.search(5);
+        assert.deepEqual(node instanceof Node, true);
+        assert.equal(node.toString(), '<Node data:5>');
+    })();
+    (() => {
+        const linkedList = new LinkedList();
+        linkedList.append(1);
+        linkedList.append(2);
+        linkedList.append(3);
+        assert.equal(linkedList.search(2).data, 2);
+        const removed = linkedList.remove(1);
+        assert.equal(removed, '<Node data:2>');
+        assert.equal(linkedList.search(2), null);
+        assert.notEqual(linkedList.search(3), null);
+        assert.notEqual(linkedList.search(1), null);
     })();
     console.log('Tests passed successfully');
 } catch (error) {
