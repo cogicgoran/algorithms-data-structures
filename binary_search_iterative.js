@@ -4,7 +4,7 @@ function binarySearchIterative(array, target) {
     let start = 0;
     let end = array.length;
     let midpoint;
-    while (start < end) {// check
+    while (start < end) {
         midpoint = Math.floor((start + end) / 2);
         if (array[midpoint] === target) {
             return midpoint;
