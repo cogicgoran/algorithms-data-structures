@@ -1,13 +1,5 @@
 const assert = require('assert');
-
-function linearSearch(array, target) {
-    for (let index = 0; index < array.length; index++) {
-        if (array[index] === target) {
-            return index;
-        }
-    }
-    return -1;
-}
+const { linearSearch } = require('./linear_search');
 
 assert.equal(linearSearch([1, 2, 3], 2), 1);
 assert.equal(linearSearch([1, 2, 3], 3), 2);

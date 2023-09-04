@@ -2,7 +2,6 @@ const assert = require('assert');
 
 class LinkedList {
     head = null;
-
     constructor() { }
 
     append(data) {
@@ -16,6 +15,19 @@ class LinkedList {
             };
             current.nextNode = newNode;
         }
+    }
+
+    nodeAtIndex(index) {
+        let current = this.head;
+        let currentIndex = 0;
+        while (current) {
+            if (currentIndex === index) {
+                return current;
+            }
+            currentIndex++;
+            current = current.nextNode;
+        }
+        return null;
     }
 
     prepend(data) {
@@ -83,6 +95,18 @@ class LinkedList {
         }
         return null;
     }
+
+    size() {
+        if (!this.head) {
+            return 0;
+        }
+        let current = this.head;
+        let currentSize = 1;
+        while (current.nextNode) {
+            currentSize++;
+            current = current.nextNode;
+        }
+    }
 }
 
 class Node {
@@ -137,3 +161,5 @@ try {
     console.log(error);
     console.log('Tests failed');
 }
+
+module.exports = LinkedList;
