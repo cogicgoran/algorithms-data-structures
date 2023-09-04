@@ -1,5 +1,4 @@
-const assert = require('assert');
-const LinkedList = require('../data-structures/linked-list');
+const { LinkedList } = require('../../data-structures/linked-list/linked-list');
 
 /**
  * 
@@ -8,13 +7,13 @@ const LinkedList = require('../data-structures/linked-list');
  * @returns Sorted linked list 
  */
 function mergeSortLinkedLists(linkedList) {
-    if (linkedList.size <= 1) {
+    if (linkedList.size() <= 1) {
         return linkedList;
     }
 
     const [leftHalf, rightHalf] = split(linkedList);
-    const left = mergeSort(leftHalf);
-    const right = mergeSort(rightHalf);
+    const left = mergeSortLinkedLists(leftHalf);
+    const right = mergeSortLinkedLists(rightHalf);
 
     return merge(left, right);
 }
@@ -70,19 +69,23 @@ function merge(left, right) {
         }
         if (left.head.data > right.head.data) {
             merged.append(right.head.data);
-            current = current.nextNode = right.head = right.nextNode;
+            current = current.nextNode;
+            right.head = right.head.nextNode
             continue;
         }
-        if (left.head.data < rightHead.data) {
+        if (left.head.data < right.head.data) {
             merged.append(left.head.data);
-            current = current.nextNode = left.head = left.nextNode;
+            current = current.nextNode;
+            left.head = left.head.nextNode;
             continue;
         }
         if (left.head.data === right.head.data) {
             merged.append(right.head.data);
-            current = current.nextNode = right.head = right.nextNode;
+            current = current.nextNode;
+            right.head = right.head.nextNode;
             merged.append(left.head.data);
-            current = current.nextNode = left.head = left.nextNode;
+            current = current.nextNode;
+            left.head = left.head.nextNode;
         }
     }
     // Discard fake head;
@@ -90,29 +93,4 @@ function merge(left, right) {
     return merged;
 }
 
-
-try {
-    // (() => {
-    //     const linkedList = new LinkedList();
-    //     const mergedList = mergeSortLinkedLists(linkedList);
-    //     assert.equal(mergedList.size(), 0)
-    // })();
-    // (() => {
-    //     const linkedList = new LinkedList();
-    //     linkedList.append(1);
-    //     const mergedList = mergeSortLinkedLists(linkedList);
-    //     assert.equal(mergedList.size(), 1)
-    //     assert.equal(mergedList.head.data, 1)
-    // })();
-    // (() => {
-    //     const linkedList = new LinkedList();
-    //     linkedList.append(2);
-    //     linkedList.append(1);
-    //     const mergedList = mergeSortLinkedLists(linkedList);
-    //     assert.equal(mergedList.size(), 5)
-    //     assert.equal(mergedList.head.data, 1)
-    // })();
-    // console.log('Tests passed successfully');
-} catch (error) {
-    console.log(error);
-}
+module.exports = { mergeSortLinkedLists };
